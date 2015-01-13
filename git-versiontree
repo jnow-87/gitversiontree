@@ -1,0 +1,25 @@
+#!/bin/bash
+
+versiontree="gitversiontree"
+xpdf=$(which xpdf)
+
+ofile="/tmp/$(basename ${PWD}).pdf"
+
+
+if [ ! -d ".git" ];then
+	echo "no git repository in current directory"
+	exit 1
+fi
+
+# check if xpdf is available
+if [ "${xpdf}" == "" ];then
+	echo "xpdf not available"
+	exit 1
+fi
+
+# generate pdf
+gitversiontree -o ${ofile}
+
+# view pdf
+${xpdf} ${ofile}
+rm ${ofile}
