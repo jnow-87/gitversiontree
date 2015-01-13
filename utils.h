@@ -11,6 +11,8 @@ using namespace std;
 
 vector<string>* str_split(string s, char delimiter);
 string* execute(string cmd);
+int parse_cmdline(int argc, char** argv);
+void help();
 
 
 #endif // UTILS_H
