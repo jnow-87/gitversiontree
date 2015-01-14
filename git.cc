@@ -28,8 +28,10 @@ int git_generate(vector <vector <string>*>* graph, map <string, string>* decorat
 
 	for(i=0; i<lines->size(); i++){
 		columns = str_split((*lines)[i], '|');
-		if(columns->size() > 2)
+		if(columns->size() > 2){
+			str_trim(&(*columns)[2], "() ");
 			(*decorations)[(*columns)[0]] = (*columns)[2];
+		}
 
 		delete columns;
 	}

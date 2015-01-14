@@ -8,6 +8,7 @@ void dot_generate(vector <vector <string>*>* graph, map <string, string>* decora
 	unsigned int i, j;
 	ofstream dot;
 	string cmd;
+	vector <string>* columns;
 
 
 	dot.open(config.dot_file, ofstream::out);
@@ -27,14 +28,18 @@ void dot_generate(vector <vector <string>*>* graph, map <string, string>* decora
 	// add decorations
 	i = 1;
 	for(map<string, string>::iterator it=(*decorations).begin(); it != (*decorations).end(); i++, it++){
-		dot << "  subgraph Decorate" << to_string(i) << "\n  {\n    rank=\"same\";\n    \"" << it->second.c_str();
+		columns = str_split(it->second.c_str(), ',');
 
-		if(it->second.find("tag:") != string::npos)
-			dot << "\" [shape=\"box\", style=\"filled\", fillcolor=\"#ffffdd\"];\n";
-		else
-			dot << "\" [shape=\"cds\", style=\"filled\", fillcolor=\"#ddddff\"];\n";
+		for(j=0; j<(columns)->size(); j++){
+			dot << "  subgraph Decorate" << i << j << "\n  {\n    rank=\"same\";\n    \"" << (*columns)[j].c_str();
 
-		dot << "    \"" << it->second.c_str() << "\" -> \"" << it->first.c_str() << "\" [weight=0, arrowtype=\"none\", dirtype=\"none\", arrowhead=\"none\", style=\"dotted\"];\n  }\n";
+			if((*columns)[j].find("tag:") != string::npos)
+				dot << "\" [shape=\"box\", style=\"filled\", fillcolor=\"#ffffdd\"];\n";
+			else
+				dot << "\" [shape=\"cds\", style=\"filled\", fillcolor=\"#ddddff\"];\n";
+
+			dot << "    \"" << (*columns)[j].c_str() << "\" -> \"" << it->first.c_str() << "\" [weight=0, arrowtype=\"none\", dirtype=\"none\", arrowhead=\"none\", style=\"dotted\"];\n  }\n";
+		}
 	}
 
 	dot << "}\n";

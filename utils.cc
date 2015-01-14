@@ -21,6 +21,20 @@ vector<string>* str_split(string s, char delimiter){
 	return v;
 }
 
+void str_trim(string* s, const char* rm){
+	int i, j;
+
+
+	for(i=s->size()-1; i>=0; i--){
+		for(j=0; j<strlen(rm); j++){
+			if((*s)[i] == rm[j]){
+				s->erase(i, 1);
+				break;
+			}
+		}
+	}
+}
+
 string* execute(string cmd){
 	char buf[255];
 	int i;
