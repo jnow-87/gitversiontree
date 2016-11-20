@@ -54,7 +54,7 @@ void dot_generate(vector <vector <string>*>* graph, map <string, string>* decora
 
 	// generate pdf
 	cmd = config.dot_cmd;
-	cmd += " -Tpdf -Gsize=30,30 -o " + (string)config.out_file + " " + config.dot_file;
+	cmd += " -Tpdf -Grankdir=BT -o " + (string)config.out_file + " " + config.dot_file;
 	execute(cmd);
 
 	if(!config.keep_dot){
