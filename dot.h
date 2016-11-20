@@ -10,7 +10,7 @@
 using namespace std;
 
 
-void dot_generate(vector <vector <string>*>* graph, map <string, string>* decorations);
+void dot_generate(vector <vector <string>*>* graph, map <string, string>* decorations, map <string, string>* commit_info);
 
 
 #endif // DOT_H

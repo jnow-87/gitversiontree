@@ -10,7 +10,7 @@
 using namespace std;
 
 
-int git_generate(vector <vector <string>*>* graph, map <string, string>* decorations);
+int git_generate(vector <vector <string>*>* graph, map <string, string>* decorations, map <string, string>* commit_info);
 
 
 #endif // GIT_H

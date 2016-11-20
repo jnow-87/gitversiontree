@@ -6,9 +6,10 @@
 
 
 
-int main(int argc, char** argv){
+int main(int argc, char **argv){
 	vector <vector <string>*> graph;
 	map <string, string> decorations;
+	map <string, string> commit_info;
 
 
 	/* parse command line */
@@ -16,10 +17,10 @@ int main(int argc, char** argv){
 		return 1;
 
 	/* collect git information */
-	git_generate(&graph, &decorations);
+	git_generate(&graph, &decorations, &commit_info);
 
 	/* generate pdf file */
-	dot_generate(&graph, &decorations);
+	dot_generate(&graph, &decorations, &commit_info);
 
 	return 0;
 }

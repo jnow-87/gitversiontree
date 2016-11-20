@@ -5,9 +5,9 @@
 #include <fstream>
 
 
-int git_generate(vector <vector <string>*>* graph, map <string, string>* decorations){
+int git_generate(vector <vector <string>*>* graph, map <string, string>* decorations, map <string, string>* commit_info){
 	unsigned int i, j, k;
-	string* res;
+	string *res;
 	string cmd;
 	ofstream log;
 	vector <string> *lines, *columns, *tmp_v0, *tmp_v1, *tmp_v2;
@@ -19,7 +19,14 @@ int git_generate(vector <vector <string>*>* graph, map <string, string>* decorat
 
 	/* get commits */
 	cmd = config.git_cmd;
-	cmd += " log --all --pretty=format:\"%h|%p|%d\"";
+
+	// commit data
+	// 	%h - abbrev hash
+	// 	%p - abbrev parent hash
+	// 	%cd - date (according to --data option)
+	// 	%s - subject
+	// 	%d - decorations
+	cmd += " log --all --pretty=format:\"%h|%p|%cd|%s|%d\" --date=short";
 	res = execute(cmd);
 	log << "[commits]\n" << res->c_str() << "\n\n";
 
@@ -28,9 +35,11 @@ int git_generate(vector <vector <string>*>* graph, map <string, string>* decorat
 
 	for(i=0; i<lines->size(); i++){
 		columns = str_split((*lines)[i], '|');
-		if(columns->size() > 2){
+
+		(*commit_info)[(*columns)[0]] = (*columns)[2] + "\\n" + (*columns)[3];
+		if(columns->size() > 4){
 			str_trim(&(*columns)[2], "() ");
-			(*decorations)[(*columns)[0]] = (*columns)[2];
+			(*decorations)[(*columns)[0]] = (*columns)[4];
 		}
 
 		delete columns;
@@ -108,7 +117,6 @@ int git_generate(vector <vector <string>*>* graph, map <string, string>* decorat
 		columns = str_split((*lines)[i], '|');
 		tmp_v0 = str_split((*columns)[1], ' ');	// parents
 
-	
 		for(j=1; j<tmp_v0->size(); j++){
 			cmd = config.git_cmd;
 			cmd += " log --reverse --first-parent --pretty=format:\"%h\" " + (*tmp_v0)[j];
