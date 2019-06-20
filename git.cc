@@ -2,7 +2,11 @@
 #include <stdio.h>
 #include <git.h>
 #include <config.h>
+#include <regex>
 #include <fstream>
+
+
+using namespace std;
 
 
 int git_generate(vector <vector <string>*>* graph, map <string, string>* decorations, map <string, string>* commit_info){
@@ -36,7 +40,8 @@ int git_generate(vector <vector <string>*>* graph, map <string, string>* decorat
 	for(i=0; i<lines->size(); i++){
 		columns = str_split((*lines)[i], '|');
 
-		(*commit_info)[(*columns)[0]] = (*columns)[2] + "\\n" + (*columns)[3];
+		(*commit_info)[(*columns)[0]] = (*columns)[2] + "\\n" + regex_replace((*columns)[3], regex("[%\">]"), "\\$&");
+
 		if(columns->size() > 4){
 			str_trim(&(*columns)[2], "() ");
 			(*decorations)[(*columns)[0]] = (*columns)[4];
