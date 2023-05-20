@@ -23,3 +23,15 @@ utils.o: options.h
 %.cc: %.gperf
 	gperf $< --output-file=$@
 	./gperf_header.sh $@ $< $(basename $@).h
+
+
+PREFIX ?= ~/bin
+
+.PHONY: install
+install: gitversiontree
+	@mkdir -p $(PREFIX)
+	@ln -srf gitversiontree $(PREFIX)/
+
+.PHONY: uninstall
+uninstall:
+	@rm $(PREFIX)/gitversiontree
